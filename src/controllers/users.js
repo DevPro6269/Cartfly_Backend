@@ -1,4 +1,4 @@
-import userValidateSchema from "../../Schema.js"
+import {userValidateSchema} from "../../Schema.js"
 import ApiError from "../utilis/ApiError.js"
 import User from "../models/user.module.js"
 import ApiResponse from "../utilis/ApiRespone.js"

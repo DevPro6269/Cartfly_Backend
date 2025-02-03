@@ -1,6 +1,7 @@
 import Joi from 'joi';
 
-const userValidateSchema = Joi.object({
+
+ export const userValidateSchema = Joi.object({
     username: Joi.string()
         .min(3)  // Minimum length for the username
         .max(30) // Maximum length for the username
@@ -15,4 +16,14 @@ const userValidateSchema = Joi.object({
         .required()
 });
 
-export default userValidateSchema;
+
+ export const productValidateSchema = Joi.object({
+    title: Joi.string().required(),
+    description: Joi.string().required(),
+    price: Joi.number().min(0).required(),
+    brandName: Joi.string().required(),
+    quantity:Joi.number().min(0).required(),
+  });
+  
+  
+
