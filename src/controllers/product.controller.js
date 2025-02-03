@@ -6,7 +6,7 @@ import {uploadOnCloudinary} from '../utilis/cloudnary.js'
 
 
 export async function AddProduct(req,res){
-
+    
     const {error} =  productValidateSchema.validate(req.body)
 
 
@@ -60,12 +60,12 @@ export async function AddProduct(req,res){
         discount,
         Availability,
         returnPolicyDays,
-        mediaUrls,
+        media:mediaUrls,
         tags,
         brandName,
         deliveryCharge,
         colors,
-        thumbnailUrl,
+        thumbnail:thumbnailUrl,
         quantity
     })
 

@@ -26,12 +26,11 @@ const productSchema = new Schema({
       ref: 'Review',
     },
   ],
-  category: [
-    {
+  category: {
       type: Schema.Types.ObjectId,
       ref: 'Category',
-    },
-  ],
+    }
+  ,
   Availability: {
     type: String,
     enum: ['inStock', 'out of stock'],
@@ -74,7 +73,7 @@ const productSchema = new Schema({
     min:0,
     required:true
   }
-});
+},{timestamps:true});
 
 const Product = model('Product', productSchema);
 

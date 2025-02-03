@@ -3,7 +3,7 @@ import express, { urlencoded } from "express";
 import userRoutes from "./src/routes/user.route.js";
 import cors from "cors";
 import productRoute from "./src/routes/product.route.js"
-
+import categoryRoute from "./src/routes/category.route.js"
 
 const app = express();
 const corsOptions = {
@@ -13,15 +13,15 @@ const corsOptions = {
   };
   
 
-app.use(urlencoded({extended:true}));
-app.use(express.json());
+  app.use(express.urlencoded({ extended: true })); // This is important
+  app.use(express.json());
 app.use(cookieParser());
 app.use(cors(corsOptions))
 
 
 app.use("/api/user",userRoutes)
 app.use("/api/product",productRoute)
-
+app.use("/api/category",categoryRoute)
 
 app.use((err, req, res, next) => {
     console.log(err.stack);
