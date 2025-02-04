@@ -21,6 +21,7 @@ const reviewSchema = new Schema({
         max:5,
         default:1
     }
-})
+},{timestamps:true})
 
 const Review = model("Review",reviewSchema)
+export default Review;

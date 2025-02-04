@@ -31,14 +31,14 @@ const cookieOptions = {
    user.password=undefined
   
    res.cookie("accessToken",token,cookieOptions)
-res.status(200).json(new ApiResponse(200,user,"user signup succesfully"))
+res.status(201).json(new ApiResponse(201,user,"user signup succesfully"))
 } 
 
 
 export async function loginUser(req,res){
-const{username,password} = req.body;
-if (!username || !password) return res.status(401).json(new ApiError(401,"username And password is required"))
-   const user = await User.findOne({username});
+const{email,password} = req.body;
+if (!email || !password) return res.status(401).json(new ApiError(401,"username And password is required"))
+   const user = await User.findOne({email});
    if(!user) return res.status(400).json(new ApiError(400,"username does not exist"));
     
    const isValidPassword =  await user.isCorrect(password);
@@ -63,6 +63,5 @@ export async function logoutUser(req,res){
     });
 
     res.status(200).json(new ApiResponse(200,user,"user logout succesfully"))
-
 
 }

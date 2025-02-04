@@ -1,17 +1,17 @@
-import ApiError from "../utilis/ApiError.js";
 import jwt from "jsonwebtoken"
+import ApiError from "../utilis/ApiError.js";
 
 function isAuthenicate(req,res,next){
-    const token = req.cookies.accessToken||req.headers.authorization?.replace("JWT ","")
-    
- if(!token) return res.status(403).json(new ApiError(403,"access denied !! No token Provided"))
- 
- const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET,(err,decode)=>{
-    if(err) res.status(401).json(new ApiError(401,"Invalid User Token or Expired"))
-    req.user = decode;
+  const {accessToken}=req.cookies;
+
+  if(!accessToken) return res.status(400).json(new ApiError(400,"invalid token or token not found"))
+
+ jwt.verify(accessToken,process.env.ACCESS_TOKEN_SECRET,(err,user)=>{
+    if(err) return res.status(400).json(new ApiError(400,"invalid token"))
+    req.user=user;
     next()
- });
+ })
 
 }
 
-export default isAuthenicate;
+export default isAuthenicate
