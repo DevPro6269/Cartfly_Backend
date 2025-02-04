@@ -6,7 +6,7 @@ import productRoute from "./src/routes/product.route.js"
 import categoryRoute from "./src/routes/category.route.js"
 import reviewRoute from "./src/routes/review.route.js"
 import orderRoute from "./src/routes/order.route.js"
-
+import cartRoute from "./src/routes/cart.route.js"
 
 
 
@@ -31,7 +31,7 @@ app.use("/api/product",productRoute)
 app.use("/api/category",categoryRoute)
 app.use("/api/review",reviewRoute)
 app.use("/api/order",orderRoute)
-
+app.use("/api/cart",cartRoute)
 
 app.use((err, req, res, next) => {
     console.log(err.stack);
