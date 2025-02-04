@@ -4,6 +4,13 @@ import userRoutes from "./src/routes/user.route.js";
 import cors from "cors";
 import productRoute from "./src/routes/product.route.js"
 import categoryRoute from "./src/routes/category.route.js"
+import reviewRoute from "./src/routes/review.route.js"
+import orderRoute from "./src/routes/order.route.js"
+
+
+
+
+
 
 const app = express();
 const corsOptions = {
@@ -22,6 +29,9 @@ app.use(cors(corsOptions))
 app.use("/api/user",userRoutes)
 app.use("/api/product",productRoute)
 app.use("/api/category",categoryRoute)
+app.use("/api/review",reviewRoute)
+app.use("/api/order",orderRoute)
+
 
 app.use((err, req, res, next) => {
     console.log(err.stack);
