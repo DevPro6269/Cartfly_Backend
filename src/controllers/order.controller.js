@@ -1,5 +1,5 @@
-import User from "../models/user.module";
-import ApiError from "../utilis/ApiError";
+import User from "../models/user.module.js";
+import ApiError from "../utilis/ApiError.js";
 import Address from "../models/address.model.js";
 import Product from "../models/prodcuts.module.js";
 import Order from "../models/order.model.js";

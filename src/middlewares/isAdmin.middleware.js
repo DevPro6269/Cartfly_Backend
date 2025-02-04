@@ -1,5 +1,5 @@
-import User from "../models/user.module";
-import ApiError from "../utilis/ApiError";
+import User from "../models/user.module.js";
+import ApiError from "../utilis/ApiError.js";
 
 export async function isAdmin(req, res, next) {
     const { id } = req.user;

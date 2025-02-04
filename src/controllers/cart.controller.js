@@ -1,6 +1,6 @@
-import Product from "../models/prodcuts.module";
-import ApiError from "../utilis/ApiError";
-import ApiRespone from "../utilis/ApiRespone";
+import Product from "../models/prodcuts.module.js";
+import ApiError from "../utilis/ApiError.js";
+import ApiRespone from "../utilis/ApiRespone.js";
 import Cart from "../models/cart.model.js";
 
 export async function addToCart(req, res) {
@@ -131,4 +131,14 @@ export async function deleteItemFromCart(req, res) {
   return res
     .status(201)
     .json(new ApiRespone(201, cart, "item removed from cart"));
+}
+
+export async function getCartDetails(req,res){
+    const user = req.user;
+
+    const cart = await Cart.findOne({owner:user.id}).populate("items.product");
+    if(!cart)return res.status(404).json(new ApiRespone(404,"user does not have any cart"));
+
+   return res.status(200).json(new ApiRespone(200,cart,"success"))
+
 }

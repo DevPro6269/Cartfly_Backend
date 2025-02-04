@@ -34,7 +34,6 @@ const cookieOptions = {
 res.status(201).json(new ApiResponse(201,user,"user signup succesfully"))
 } 
 
-
 export async function loginUser(req,res){
 const{email,password} = req.body;
 if (!email || !password) return res.status(401).json(new ApiError(401,"username And password is required"))
@@ -63,5 +62,65 @@ export async function logoutUser(req,res){
     });
 
     res.status(200).json(new ApiResponse(200,user,"user logout succesfully"))
+
+}
+
+export async function getUserDetails(req,res){
+   const user = req.user;
+  
+   const userDetails = await User.aggregate([
+      {
+         $match:{
+            email:user.email
+         }
+      },
+      {
+         $lookup:{
+            from:"orders",
+            localField:"_id",
+            foreignField:"owner",
+            as:"orders"
+         }
+      },
+      {
+         $lookup:{
+            from:"addresses",
+            localField:"_id",
+            foreignField:"user",
+            as:"addresses"
+         }
+      },
+
+      {
+         $lookup:{
+            from:"carts",
+            localField:"_id",
+            foreignField:"owner",
+            as:"cartDetails"
+         }
+      },
+   ])
+
+
+if(!userDetails||userDetails.length==0)return res.status(404).json(new ApiError(404,"user details not found"));
+
+userDetails[0].password=undefined;
+
+return res.status(200).json(new ApiResponse(200,userDetails,"success"))
+}
+
+export async function updateUserDetails(req,res) {
+   const user = req.user ;
+   if(!user) return res.status(404).json(new ApiError(404,"user not found"));
+
+   
+    const{role}=req.body;
+    if(!role)return res.status(400).json(new ApiError(400,"please provide a valid rold"));
+
+  user.role=role
+
+  await user.save()
+
+res.status(201).json(new ApiResponse(201,null,"user role is changed"))
 
 }
