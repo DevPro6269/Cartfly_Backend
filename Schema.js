@@ -36,6 +36,16 @@ export const productValidateSchema = Joi.object({
   // You can add more custom validation for fields like tags, category, etc., if needed
 });
 
-  
+export const addressValidateSchema = Joi.object({
+  user: Joi.string().required(),
+  recipientName: Joi.string().required(),
+  streetAddress: Joi.string().required(),
+  city: Joi.string().required(),
+  state: Joi.string().required(),
+  country: Joi.string().required(),
+  postalCode: Joi.string().required().pattern(/^[A-Za-z0-9\s-]+$/), 
+  phoneNumber: Joi.string().required().pattern(/^[+0-9]{1,3}\s?\(?[0-9]{1,4}\)?[\s0-9]{5,10}$/).max(10).min(10), 
+});
+
   
 

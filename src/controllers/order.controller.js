@@ -112,12 +112,16 @@ export async function updateOrder(req, res) {
     .json(new ApiRespone(201, updatedOrder, "order upadated succesfully"));
 }
 
-export async function getOrders(req,res){
-    const{status}=req.params;
-    if(!status)return res.status(400).json(new ApiError(400,"status is missing in parameter"));
+export async function getOrders(req, res) {
+  const { status } = req.params;
+  if (!status)
+    return res
+      .status(400)
+      .json(new ApiError(400, "status is missing in parameter"));
 
-    const orders = await Order.find({ status: status });
-    if(orders.length==0) return res.status(404).json(new ApiError(404,"Orders not found "))
+  const orders = await Order.find({ status: status });
+  if (orders.length == 0)
+    return res.status(404).json(new ApiError(404, "Orders not found "));
 
-        return res.status(200).json(new ApiRespone(200,orders,"success"))
+  return res.status(200).json(new ApiRespone(200, orders, "success"));
 }
