@@ -68,7 +68,7 @@ const productSchema = new Schema({
     required: true,
     match: [/^https?:\/\/[^\s]+$/, 'Please enter a valid URL'],
   },
-  quantity:{
+  stock:{
     type:Number,
     min:0,
     required:true

@@ -32,3 +32,4 @@ export async function addNewCategory(req, res) {
         return res.status(500).json(new ApiError(500, "Server error"));
       }
 }
+

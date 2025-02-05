@@ -24,7 +24,7 @@ export const productValidateSchema = Joi.object({
   price: Joi.number().min(0).required(),
   discount: Joi.number().min(0).max(100).default(0),
   brandName: Joi.string().required(),
-  quantity: Joi.number().min(0).required(),
+  stock: Joi.number().min(0).required(),
 //   category: Joi.object().items(Joi.string()).optional(),  // Assuming category IDs are strings
   Availability: Joi.string().valid('inStock', 'out of stock').default('inStock'),
   returnPolicyDays: Joi.number().min(0).default(0),
