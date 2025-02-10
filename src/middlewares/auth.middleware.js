@@ -4,7 +4,8 @@ import User from "../models/user.module.js";
 
 async function isAuthenticate(req, res, next) {
   const accessToken = req.cookies.accessToken || req.headers.authorization?.split(' ')[1];
-
+   console.log(req);
+   
   if (!accessToken) {
     return res.status(400).json(new ApiError(400, "Invalid token or token not found"));
   }

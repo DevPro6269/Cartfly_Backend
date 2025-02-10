@@ -29,6 +29,13 @@ const productSchema = new Schema({
   category: {
       type: Schema.Types.ObjectId,
       ref: 'Category',
+      required:true
+    }
+,
+    subCategory: {
+      type: Schema.Types.ObjectId,
+      ref: 'SubCategory',
+      required:true
     }
   ,
   Availability: {
@@ -68,7 +75,7 @@ const productSchema = new Schema({
     required: true,
     match: [/^https?:\/\/[^\s]+$/, 'Please enter a valid URL'],
   },
-  quantity:{
+  stock:{
     type:Number,
     min:0,
     required:true

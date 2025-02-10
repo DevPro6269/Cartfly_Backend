@@ -7,17 +7,18 @@ import categoryRoute from "./src/routes/category.route.js"
 import reviewRoute from "./src/routes/review.route.js"
 import orderRoute from "./src/routes/order.route.js"
 import cartRoute from "./src/routes/cart.route.js"
-
+import subCategoryRoute from "./src/routes/subCategory.route.js"
 
 
 
 
 const app = express();
 const corsOptions = {
-    origin: 'http://localhost:5173',  // Your frontend URL
-    methods: 'GET,POST,PUT,DELETE',
-    credentials: true,  // Allow cookies to be sent with requests (important for JWT)
-  };
+  origin: 'http://localhost:5173',  // Your frontend URL
+  methods: 'GET,POST,PUT,DELETE',  // Allowed HTTP methods
+  credentials: true,  // Allow cookies to be sent with requests (important for JWT)
+};
+
   
 
   app.use(express.urlencoded({ extended: true })); // This is important
@@ -27,8 +28,10 @@ app.use(cors(corsOptions))
 
 
 app.use("/api/user",userRoutes)
+
 app.use("/api/product",productRoute)
 app.use("/api/category",categoryRoute)
+app.use("/api/sub-category",subCategoryRoute)
 app.use("/api/review",reviewRoute)
 app.use("/api/order",orderRoute)
 app.use("/api/cart",cartRoute)

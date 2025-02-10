@@ -8,7 +8,8 @@ import generateAccessToken from "../utilis/generateAccessToken.js";
 const cookieOptions = {
    httpOnly:true,
    secure:process.env.NODE_ENV==="production",
-   maxAge:3600000
+   maxAge:3600000,
+   sameSite: 'None',
 }
 
  export async function signupUser(req,res){
@@ -31,16 +32,16 @@ const cookieOptions = {
    user.password=undefined
   
    res.cookie("accessToken",token,cookieOptions)
-res.status(201).json(new ApiResponse(201,user,"user signup succesfully"))
+   res.status(201).json(new ApiResponse(201,user,"user signup succesfully"))
 } 
 
 export async function loginUser(req,res){
 const{email,password} = req.body;
 if (!email || !password) return res.status(401).json(new ApiError(401,"username And password is required"))
    const user = await User.findOne({email});
-   if(!user) return res.status(400).json(new ApiError(400,"username does not exist"));
+   if(!user) return res.status(400).json(new ApiError(400,"email does not exist"));
     
-   const isValidPassword =  await user.isCorrect(password);
+   const isValidPassword =  await user.isCorrectPassword(password);
    
    if(!isValidPassword) return res.status(400).json(new ApiError(400,"Password is not Valid"));
    const token = generateAccessToken(user.id);

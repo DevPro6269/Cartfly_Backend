@@ -20,7 +20,7 @@ const addressSchema = new Schema(
       required: true, // City name is required
     },
     state: {
-      type: String,
+      type: String, 
       required: true, // State name is required
     },
     country: {

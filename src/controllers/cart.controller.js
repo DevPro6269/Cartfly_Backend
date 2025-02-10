@@ -7,28 +7,44 @@ export async function addToCart(req, res) {
   const user = req.user;
   const { items } = req.body;
 
+  // Check if items array is missing or empty
   if (!items || items.length == 0)
-    return res.status(400).json(new ApiError(400, "items field  is missing"));
+    return res.status(400).json(new ApiError(400, "items field is missing"));
 
   let cartitem = [];
+  let totalAmount = 0; // Initialize total amount to 0
+
+  // Iterate over each item in the cart
   for (let item of items) {
+    // Check if quantity is valid
     if (!item.quantity || item.quantity <= 0) {
       return res
         .status(400)
-        .json(new ApiError(400, `Invalid quantity for product with id ${id}`));
+        .json(new ApiError(400, `Invalid quantity for product with id ${item.id}`));
     }
+
+    // Fetch the product by its ID
     const product = await Product.findById(item.id);
     if (!product)
       return res
-        .status(404)
-        .json(`product is not found with this ${item.id} id`);
+        .status(400)
+        .json(new ApiError(400, `Product not found with this ID ${item.id}`));
+
+    // Check if the product stock is sufficient
     if (product.stock < item.quantity)
       return res
         .status(400)
-        .json(new ApiRespone(404, " Product Stock is not avilable"));
+        .json(new ApiError(400, "Product stock is not available"));
+
+    // Deduct the quantity from the product stock
     product.stock -= item.quantity;
     await product.save();
 
+    // Calculate the price for the item
+    const itemTotalPrice = item.price * item.quantity;
+    totalAmount += itemTotalPrice;
+
+    // Add the item to the cart items
     cartitem.push({
       product: product.id,
       quantity: item.quantity,
@@ -36,23 +52,34 @@ export async function addToCart(req, res) {
     });
   }
 
+  // Check if the user already has a cart
   let iscartExist = await Cart.findOne({ owner: user.id });
   if (iscartExist) {
+    // Add new items to the existing cart
     iscartExist.items.push(...cartitem);
+    iscartExist.totalAmount += totalAmount; // Update the total amount
     await iscartExist.save();
   } else {
+    // Create a new cart
     const cart = await Cart.create({
       owner: user.id,
       items: cartitem,
-      totalAmount,
+      totalAmount: totalAmount, // Set the total amount
     });
 
     if (!cart)
-      return res.status(500).json(new ApiError(500, "internal server error"));
+      return res.status(500).json(new ApiError(500, "Internal server error"));
 
-    return res.status(201).json(new ApiRespone(200, cart, "success"));
+    // Add the cart to the user's cart list
+    user.cart.push(cart.id);
+    await user.save();
+
+    return res.status(201).json(new ApiRespone(200, cart, "Success"));
   }
+
+  return res.status(200).json(new ApiRespone(200, iscartExist, "Success"));
 }
+
 
 export async function updateQuantity(req, res) {
   const { productId, cartId } = req.params;
