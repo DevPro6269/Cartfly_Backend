@@ -34,6 +34,12 @@ const userSchema = new Schema({
     enum: ["customer", "admin"],
     default: "customer",
   },
+  cart:[
+    {
+      type:Schema.Types.ObjectId,
+      ref:"Cart"
+    }
+  ]
 });
 
 // Password hashing before saving user

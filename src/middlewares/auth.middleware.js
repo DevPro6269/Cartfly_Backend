@@ -4,12 +4,11 @@ import User from "../models/user.module.js";
 
 async function isAuthenticate(req, res, next) {
   const accessToken = req.cookies.accessToken || req.headers.authorization?.split(' ')[1];
-   console.log(req);
+  //  console.log(req.cookies);
    
   if (!accessToken) {
     return res.status(400).json(new ApiError(400, "Invalid token or token not found"));
   }
-
   try {
    
     const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
